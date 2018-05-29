@@ -20,13 +20,38 @@ function loadData() {
 
     // clear out old data before new request
     $wikiElem.text("");
-    $nytElem.text("");
+    
 
     // load streetview
 
     // YOUR CODE GOES HERE!
 
-    return false;
-};
+
+
+
+    //New york times article search ajax request comes here 
+
+    var nyturl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' +cityStr+ '&sort=newest&api-key=0f1f3b0095154a7fbdc266ede65a5996';
+        
+        $.getJSON(nyturl, function(data){
+            $nytHeaderElem.text('New York Times Articles About' +cityStr);
+            articles = data.response.docs;
+
+            for(var i=0;i< articles.length; i++){
+
+                var article = articles[i];
+                $nytElem.append('<li class="article">' + 
+
+                    '<a href= "'+article.web_url+'">' + article.headline.main+ '</a>' + 
+
+                    '<p>' + article.snippet + '</p>'+ '</li>');
+            };
+        
+        })
+
+            return false;
+        };
+
+
 
 $('#form-container').submit(loadData);
